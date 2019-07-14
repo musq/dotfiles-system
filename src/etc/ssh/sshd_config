@@ -1,0 +1,67 @@
+# Server
+# /etc/ssh/sshd_config
+
+# Strong security settings for SSH servers,
+#
+# Append these values to the end of /etc/ssh/sshd_config
+#
+# Background information:
+#   https://github.com/bluz71/dotfiles/blob/master/sshd_config
+#   https://stribika.github.io/2015/01/04/secure-secure-shell.html
+#   http://chr4.org/blog/2014/09/13/howto-secure-openssh-newer-versions/
+#
+# NOTE: Please comment out ALL HostKey directives at the top of the sshd_config
+# file. We only want to support Ed25519 and RSA as fallback.
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# Restrict ssh login to users in the following group
+AllowGroups ssh-users
+
+AuthorizedKeysFile .ssh/authorized_keys
+
+# Change to yes to enable challenge-response passwords (beware issues
+# with some PAM modules and threads)
+# Must be set to no to disable password authentication completely
+ChallengeResponseAuthentication no
+
+Compression delayed
+
+# Only allow strong host keys
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+
+# Ciphers and Algorithms
+Ciphers         chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+KexAlgorithms   curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+MACs            hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+
+# To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication no
+
+# Disable direct ssh to root
+PermitRootLogin no
+
+# Use modern protocol with Public key authentication
+Protocol 2
+
+# Enable public key authentication
+PubkeyAuthentication yes
+
+# Regenerate keys after a while
+RekeyLimit 400M 3600
+
+# Assert appropriate 600 permissions on ssh files
+StrictModes yes
+
+# Logging
+SyslogFacility AUTH
+# Log fingerprint of incoming SSH keys
+LogLevel VERBOSE
+
+# Send keep-alive signals to avoid connection timeout
+TCPKeepAlive yes
+
+# https://unix.stackexchange.com/a/56947
+UseDNS no

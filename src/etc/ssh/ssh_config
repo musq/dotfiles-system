@@ -1,0 +1,66 @@
+# Client
+# /etc/ssh/ssh_config
+
+# Sane security settings for SSH clients.
+#
+# Explanation:
+#   http://mochtu.de/2015/01/06/securing-ssh-connections/
+# Background:
+#   https://github.com/bluz71/dotfiles/blob/master/ssh_config
+#   https://stribika.github.io/2015/01/04/secure-secure-shell.html
+#   http://chr4.org/blog/2014/09/13/howto-secure-openssh-newer-versions/
+#
+# NOTE, use the following commands when dealing with hashed known_hosts:
+# Client:
+#   ssh-keygen -F myhost # Find myhost in known_hosts
+#   ssh-keygen -R myhost # Remove myhost from known_hosts
+#   ssh-keyscan myhost | ssh-keygen -lf - # Scan host for keys' fingerprints
+# Server:
+#   ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key # Get key's fingerprint on server
+
+
+Host *
+  # Check for changed server IPs or possible DNS spoofings
+  CheckHostIP yes
+  # Enable compression
+  Compression yes
+  # Set max tries before exiting to 1
+  ConnectionAttempts 1
+  # Enable public key authentication
+  PubkeyAuthentication yes
+  # Regenerate keys after a while
+  RekeyLimit 400M 3600
+  # Ask to verify server fingerprint
+  StrictHostKeyChecking ask
+  # Send keep-alive signals to avoid connection timeout
+  TCPKeepAlive yes
+  # https://security.stackexchange.com/questions/110639/how-exploitable-is-the-recent-useroaming-ssh-problem
+  UseRoaming no
+  # High security
+  Ciphers           chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+  HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,ssh-rsa-cert-v01@openssh.com,ssh-rsa
+  KexAlgorithms     curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+  MACs              hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+  # Low security
+  # Ciphers           chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr,3des-cbc,aes256-cbc,aes192-cbc,aes128-cbc
+
+
+Host github.com
+  # Github needs diffie-hellman-group-exchange-sha1 some of the time but not always.
+  Hostname ssh.github.com
+  KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1
+  Port 443
+
+
+# Host example
+#   User dev
+#   HostName dev.example.com
+#   IdentityAgent SSH_AUTH_SOCK
+#   IdentityFile ~/.ssh/id_dsa
+#   IdentityFile ~/.ssh/id_rsa
+#   ChallengeResponseAuthentication no
+#   PasswordAuthentication no
+#   UserKnownHostsFile ~/.ssh/known_hosts
+#   PermitLocalCommand yes
+#   LocalCommand "uname -a"
+#   RemoteCommand "uname -a"

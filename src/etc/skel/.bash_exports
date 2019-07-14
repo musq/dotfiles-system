@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# Bash Variables
+# https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Make `vim` the default editor
+
+export EDITOR="vim"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Ignore commands that are duplicates
+
+export HISTCONTROL=ignoredups
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Increase the maximum number of lines of history
+# persisted in the history file (default value is 500)
+
+export HISTFILESIZE=2000
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Don't add certain commands to the history file
+
+export HISTIGNORE="c:clear:exit:pwd"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Increase the maximum number of commands recorded
+# in the command history (default value is 500)
+
+export HISTSIZE=1000
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Prefer US English and use UTF-8 encoding
+
+export LANG="en_US"
+export LC_ALL="en_US.UTF-8"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Use custom `less` colors for `man` pages
+
+export LESS_TERMCAP_md=$(printf "\e[1;31m")
+export LESS_TERMCAP_me=$(printf "\e[0m")
+export LESS_TERMCAP_se=$(printf "\e[0m")
+export LESS_TERMCAP_so=$(printf "\e[1;40;92m")
+export LESS_TERMCAP_ue=$(printf "\e[0m")
+export LESS_TERMCAP_us=$(printf "\e[1;32m")
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Set tab width to 4
+# Highlight searches and ignore case
+
+export MANPAGER="less --tabs=4 --ignore-case --hilite-search --squeeze-blank-lines"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Prepend $HOME/bin to PATH, if not already exists
+
+[[ ":$PATH:" != *":$HOME/bin:"* ]] \
+    && PATH="$HOME/bin:${PATH}"
+
+export PATH
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Make new shells get the history lines from all previous
+# shells instead of the default "last window closed" history
+
+export PROMPT_COMMAND="history -a;"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Make Python use UTF-8 encoding for output to stdin/stdout/stderr
+
+export PYTHONIOENCODING="UTF-8"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Colorful TERM
+
+if [[ $COLORTERM == gnome-* && $TERM == xterm ]] \
+    && infocmp gnome-256color &> /dev/null; then
+    export TERM="gnome-256color"
+elif infocmp xterm-256color &> /dev/null; then
+    export TERM="xterm-256color"
+fi
