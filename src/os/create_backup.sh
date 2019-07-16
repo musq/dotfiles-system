@@ -7,12 +7,13 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 init_backup() {
 
-    mkdir -p "$HOME/dotfiles-system-backup"
+    mkdir -p "$HOME/.backups/dotfiles-system-backup"
 
     # get the version
     LAST_VERSION=$(
-        find "$HOME/dotfiles-system-backup" -iname 'v[[:alnum:]]*' \
-        -type d | \
+        find "$HOME/.backups/dotfiles-system-backup" \
+            -iname 'v[[:alnum:]]*' \
+            -type d | \
         sed "s/.*\///" | \
         cut -c 2- | \
         sort -n | \
@@ -21,7 +22,7 @@ init_backup() {
 
     CURRENT_VERSION=$(($LAST_VERSION + 1))
 
-    BACKUP_DIR="$HOME/dotfiles-system-backup/v$CURRENT_VERSION"
+    BACKUP_DIR="$HOME/.backups/dotfiles-system-backup/v$CURRENT_VERSION"
 
     mkd "$BACKUP_DIR" \
         || ( print_error "Failed to create backup directory" && exit 1 )
