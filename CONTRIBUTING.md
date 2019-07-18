@@ -48,10 +48,16 @@ Source: https://git-scm.com/book/en/v2/GitHub-Maintaining-a-Project#_pr_refs
 
 ### 2. Releases
 
-- Strictly follow [Semantic Versioning](https://semver.org/)
-- You may use
-[semantic-release bot](https://github.com/semantic-release/semantic-release)
-to manage releases
+Strictly follow [Semantic Versioning](https://semver.org/).
+
+#### Use [semantic-release](https://github.com/semantic-release/semantic-release):
+
+| Action | Snippet |
+|:---|:---|
+| Install | `npm install -g semantic-release@15` |
+| [Access Token](https://github.com/settings/tokens/new) | `export GITHUB_TOKEN=XXXXXXXXXXXXXX` |
+| Dry run | `semantic-release -d` |
+| Release | `semantic-release` |
 
 <br>
 
