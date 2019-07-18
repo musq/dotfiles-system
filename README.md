@@ -137,4 +137,6 @@ See [contributing guidelines](CONTRIBUTING.md).
 
 ## License
 
-The code is available under the [GNU GPL v3, or later](LICENSE) license.
+- The code is available under [GNU GPL v3, or later](LICENSE) license
+- Parts from the [original base](https://github.com/alrra/dotfiles) are
+still available under MIT license
