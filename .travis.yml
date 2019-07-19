@@ -1,0 +1,34 @@
+# For more information about the configurations used
+# in this file, please see the Travis CI documentation.
+#
+# https://docs.travis-ci.com
+
+before_install:
+  - ./test/customize_environment.sh
+
+branches:
+  only:
+    - master
+    - stage
+
+install:
+  - ./src/os/setup.sh -y
+
+matrix:
+  include:
+
+    - os: linux
+      dist: xenial
+
+    - os: linux
+      dist: bionic
+
+notifications:
+  email:
+    on_failure: always
+    on_success: never
+
+script:
+  - ./test/main.sh
+
+sudo: required
