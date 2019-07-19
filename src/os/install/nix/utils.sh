@@ -38,7 +38,7 @@ nix_install() {
     declare -r PACKAGE="$2"
     declare -r PACKAGE_READABLE_NAME="$1"
 
-    local installedFlag="$(sudo -i nix-env -qasA $PACKAGE | cut -c1)"
+    local installedFlag="$(sudo -i nix-env -qasA "$PACKAGE" | cut -c1)"
 
     if [ "$installedFlag" == "I" ]; then
         print_success "$PACKAGE_READABLE_NAME"

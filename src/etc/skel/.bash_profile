@@ -31,6 +31,7 @@ source_bash_files() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    # shellcheck disable=SC2164
     cd "$CURRENT_DIRECTORY"
 
 }

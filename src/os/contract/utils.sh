@@ -11,7 +11,7 @@ add_group() {
     declare -r SYSTEM="$2"
 
     # Check if the group already exists
-    if [ "$(getent group $GROUP)" ]; then
+    if [ "$(getent group "$GROUP")" ]; then
         print_success "Create group: $GROUP"
         return 0
     fi
@@ -39,7 +39,7 @@ add_user() {
     declare -r SYSTEM="$3"
 
     # Check if the user already exists
-    if [ "$(getent passwd $USER)" ]; then
+    if [ "$(getent passwd "$USER")" ]; then
         print_success "Create user: $USER"
         return 0
     fi

@@ -6,7 +6,7 @@
 
 eq() {
     set -f
-    echo $@ | bc
+    echo "$@" | bc
     set +f
 }
 
@@ -55,6 +55,7 @@ nlist() {
     if [ -z "$1" ]; then
         echo "Please specify name of a process";
     else
+        # shellcheck disable=SC2009
         ps auxw | grep "$1"
     fi
 }

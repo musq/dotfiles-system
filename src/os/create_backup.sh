@@ -20,7 +20,7 @@ init_backup() {
         tail -1
     )
 
-    CURRENT_VERSION=$(($LAST_VERSION + 1))
+    CURRENT_VERSION=$((LAST_VERSION + 1))
 
     BACKUP_DIR="$HOME/.backups/dotfiles-system-backup/v$CURRENT_VERSION"
 
@@ -89,7 +89,7 @@ create_full_path_backup() {
         sourceFile="/$i"
         targetFile="$BACKUP_DIR/$i"
 
-        mkdir -p "$(dirname $targetFile)"
+        mkdir -p "$(dirname "$targetFile")"
 
         copy_file "$sourceFile" "$targetFile"
 

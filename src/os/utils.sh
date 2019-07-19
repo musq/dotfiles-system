@@ -63,7 +63,7 @@ create_symlink() {
     if [ ! -e "$targetFile" ]; then
 
         execute \
-            "mkdir -p $(dirname $targetFile) \
+            "mkdir -p $(dirname "$targetFile") \
                 && ln -fs $sourceFile $targetFile" \
             "$targetFile → $sourceFile" \
             "sudo"
@@ -447,6 +447,7 @@ user_has_sudo() {
     local prompt
 
     prompt=$(sudo -nv 2>&1)
+    # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         echo "has_sudo__pass_set"
     elif echo "$prompt" | grep -q '^sudo:'; then
