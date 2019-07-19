@@ -21,6 +21,7 @@ OS="$(get_os)"
 
 if [ ! -e "$OS/main.sh" ]; then
     print_error "Unidentified OS - Ignoring package install"
+    exit 1
 fi
 
 ./"$OS"/main.sh
