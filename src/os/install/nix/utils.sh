@@ -54,6 +54,7 @@ nix_install() {
                 "sudo"
 
         fi
+
     fi
 
 }
