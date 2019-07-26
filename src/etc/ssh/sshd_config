@@ -26,6 +26,11 @@ AuthorizedKeysFile .ssh/authorized_keys
 # Must be set to no to disable password authentication completely
 ChallengeResponseAuthentication no
 
+# Send client alive messages through the encrypted channel to check
+# if the client is still connected. Max time = 6*600s = 3600s
+ClientAliveCountMax 6
+ClientAliveInterval 600
+
 Compression delayed
 
 # Only allow strong host keys
