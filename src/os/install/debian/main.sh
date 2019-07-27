@@ -17,6 +17,7 @@ upgrade
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 install_package "bzip2" "bzip2"
+install_package "python3-venv" "python3-venv"
 install_package "rsync" "rsync"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
