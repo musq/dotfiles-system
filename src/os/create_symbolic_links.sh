@@ -28,9 +28,6 @@ create_full_path_symlinks() {
         sourceFile="$(cd .. && pwd)/$i"
         targetFile="/$i"
 
-        # Create the full folder structure
-        sudo mkdir -p "$(dirname "$targetFile")"
-
         create_symlink "$sourceFile" "$targetFile" "$@"
 
     done
