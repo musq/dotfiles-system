@@ -39,9 +39,7 @@ update_git_repository() {
     declare -r remote="$1"
     declare -r branch="$2"
 
-    execute \
-        "git fetch $remote $branch \
-            && git reset --hard $remote/$branch" \
+    execute "git fetch $remote $branch" \
         "Update the Git repository"
 
 }
