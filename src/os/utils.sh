@@ -46,6 +46,23 @@ cmd_exists() {
 
 }
 
+containsElement () {
+
+    # Check if a bash array contains a value
+    # https://stackoverflow.com/a/8574392
+
+    local e match="$1"
+    shift
+
+    for e; do
+        [[ "$e" == "$match" ]] \
+            && return 0;
+    done
+
+    return 1
+
+}
+
 create_symlink() {
 
     local -r sourceFile="$1"
@@ -168,23 +185,6 @@ execute() {
 
 get_answer() {
     printf "%s" "$REPLY"
-}
-
-containsElement () {
-
-    # Check if a bash array contains a value
-    # https://stackoverflow.com/a/8574392
-
-    local e match="$1"
-    shift
-
-    for e; do
-        [[ "$e" == "$match" ]] \
-            && return 0;
-    done
-
-    return 1
-
 }
 
 get_os() {
