@@ -373,6 +373,7 @@ show_spinner() {
     local -r MSG="$3"
     local -r PID="$1"
 
+    # shellcheck disable=SC2034
     local i=0
     local frameText=""
 
