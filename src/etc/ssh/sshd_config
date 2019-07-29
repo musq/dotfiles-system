@@ -57,6 +57,12 @@ PubkeyAuthentication yes
 # Regenerate keys after a while
 RekeyLimit 400M 3600
 
+# Remove an existing Unix-domain socket file for local or remote port
+# forwarding before creating a new one. Must be set to 'yes' for
+# GnuPG Agent Forwarding
+# https://wiki.gnupg.org/AgentForwarding
+StreamLocalBindUnlink yes
+
 # Assert appropriate 600 permissions on ssh files
 StrictModes yes
 
