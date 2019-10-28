@@ -47,5 +47,6 @@ upgrade
 ./misc_tools.sh "$full"
 ./navigators.sh "$full"
 ./python.sh "$full"
+./servers.sh "$full"
 
 ./cleanup.sh
