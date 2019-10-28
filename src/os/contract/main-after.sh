@@ -7,4 +7,5 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n ● Contracts - After\n"
 
+./nginx.sh
 ./nix.sh
