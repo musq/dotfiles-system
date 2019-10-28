@@ -82,3 +82,30 @@ add_user_to_group() {
         "sudo"
 
 }
+
+harden() {
+
+    local -r path="$1"
+    local -r user="$2"
+    local -r group="$3"
+    local -r file_permission="$4"   # e.g. 600
+    local -r dir_permission="$5"    # e.g. 700
+
+    # CRITICAL: change permissions of the folder and contents
+    sudo mkdir -p "$path"
+
+    # Own the folder
+    sudo chown -R "$user":"$group" "$path"
+
+    # Make all files inside rw-------
+    sudo find "$path" -maxdepth 2 -type f -exec chmod "$file_permission" {} ';'
+
+    # Make all directories inside rwx------
+    sudo find "$path" -maxdepth 2 -type d -exec chmod "$dir_permission" {} ';'
+
+    # Make folder rwx------
+    sudo chmod "$dir_permission" "$path"
+
+    print_result "$?" "Set strict permission of $path"
+
+}
