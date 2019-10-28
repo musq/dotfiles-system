@@ -11,10 +11,16 @@ create_full_path_symlinks() {
 
         "etc/git/git-commit-template"
 
+        "etc/nginx/conf.d/default.conf"
+        "etc/nginx/mime.types"
+        "etc/nginx/nginx.conf"
+
         "etc/ssh/ssh_config"
         "etc/ssh/sshd_config"
 
         "etc/skel"
+
+        "lib/systemd/system/nginx.service"
 
         "usr/local/bin/fzf-tmux"
         "usr/local/bin/git-icdiff"
