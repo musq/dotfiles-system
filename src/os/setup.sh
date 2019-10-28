@@ -240,6 +240,7 @@ main() {
 
     print_in_yellow "\n You should probably run these commands -\n"
     print_in_yellow " - sudo systemctl restart sshd\n"
+    print_in_yellow " - sudo systemctl enable nginx\n"
     print_in_yellow "\n"
 
 }
