@@ -7,11 +7,13 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 init_backup() {
 
-    mkdir -p "$HOME/.backups/dotfiles-system-backup"
+    local -r BACKUP_HOME="$HOME/backups/dotfiles-system"
+
+    mkdir -p "$BACKUP_HOME"
 
     # get the version
     LAST_VERSION=$(
-        find "$HOME/.backups/dotfiles-system-backup" \
+        find "$BACKUP_HOME" \
             -iname 'v[[:alnum:]]*' \
             -type d | \
         sed "s/.*\///" | \
@@ -22,10 +24,66 @@ init_backup() {
 
     CURRENT_VERSION=$((LAST_VERSION + 1))
 
-    BACKUP_DIR="$HOME/.backups/dotfiles-system-backup/v$CURRENT_VERSION"
+    BACKUP_DIR="$BACKUP_HOME/v$CURRENT_VERSION"
 
     mkd "$BACKUP_DIR" \
         || ( print_error "Failed to create backup directory" && exit 1 )
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+create_backup() {
+
+    local files=$(find_files_to_backup "create_full_path_symlinks()")
+
+    for i in $files; do
+
+        sourceFile="/$(printf "%s" "$i" \
+            | sed "s/\"//g")"
+
+        targetFile="$BACKUP_DIR/$(printf "%s" "$i" \
+            | sed "s/\"//g")"
+
+        copy_file "$sourceFile" "$targetFile"
+
+    done
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+copy_file() {
+
+    # https://stackoverflow.com/a/10641279
+
+    # shellcheck disable=SC2086
+    if sudo bash -c '[[ -e "'$1'" && ! -L "'$1'" ]]'; then
+
+        mkdir -p "$(dirname "$2")"
+
+        # If the source file is not a symlink, take a backup
+        execute \
+            "cp -a $1 $2" \
+            "$1 → $2" \
+            "sudo" \
+            || print_error "$1 → $2"
+
+    fi
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+find_files_to_backup() {
+
+    local -r mark="$1"
+
+    local files=$(sed -n "/$mark/,/)$/p" create_symbolic_links.sh \
+        | grep "^\ *\".*\"$" \
+        | sed -e :a -e ';$!N;s/\n/ /;ta')
+
+    printf "%s" "$files"
 
 }
 
@@ -51,64 +109,14 @@ finish_backup() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-copy_file() {
-
-    # If the source file/directory exists and is not a symlink,
-    # take a backup
-    if { [ -e "$1" ] || [ -d "$1" ]; } && [ ! -L "$1" ]; then
-        execute \
-            "cp -a $1 $2" \
-            "$1 → $2" \
-            || print_error "$1 → $2"
-    fi
-
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-create_full_path_backup() {
-
-    declare -a FILES_TO_BACKUP=(
-
-        "etc/git/git-commit-template"
-
-        "etc/ssh/ssh_config"
-        "etc/ssh/sshd_config"
-
-        "etc/skel"
-
-        "usr/local/bin/fzf-tmux"
-        "usr/local/bin/git-icdiff"
-
-    )
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    for i in "${FILES_TO_BACKUP[@]}"; do
-
-        sourceFile="/$i"
-        targetFile="$BACKUP_DIR/$i"
-
-        mkdir -p "$(dirname "$targetFile")"
-
-        copy_file "$sourceFile" "$targetFile"
-
-    done
-
-}
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 main() {
 
     print_in_purple "\n ● Create backup\n\n"
 
     init_backup
-
-    create_full_path_backup
-
+    create_backup
     finish_backup
+
 }
 
 main
