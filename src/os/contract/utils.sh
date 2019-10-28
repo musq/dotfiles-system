@@ -48,17 +48,19 @@ add_user() {
     local args=""
 
     if [ "$SYSTEM" == "system" ]; then
-        args="--system"
+        args="--system \
+            --home /var/empty \
+            --shell /bin/false"
     else
         args="--user-group \
             --create-home \
-            --shell /bin/bash \
-            --comment '$USER_NAME'"
+            --shell /bin/bash"
     fi
 
     execute \
         "useradd \
             --key UMASK=022 \
+            --comment '$USER_NAME' \
             $args \
             $USER" \
         "Create user: $USER" \
