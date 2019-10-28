@@ -239,7 +239,7 @@ main() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     print_in_yellow "\n You should probably run these commands -\n"
-    print_in_yellow " - sudo service sshd restart\n"
+    print_in_yellow " - sudo systemctl restart sshd\n"
     print_in_yellow "\n"
 
 }
