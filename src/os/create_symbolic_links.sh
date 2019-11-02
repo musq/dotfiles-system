@@ -12,6 +12,7 @@ create_full_path_symlinks() {
         "etc/git/git-commit-template"
 
         "etc/nginx/conf.d/default.conf"
+        "etc/nginx/conf.d/helpers/ssl.conf"
         "etc/nginx/mime.types"
         "etc/nginx/nginx.conf"
 
