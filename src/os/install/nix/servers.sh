@@ -9,3 +9,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 print_in_purple "\n   Servers\n\n"
 
 nix_install "NGINX" "nixpkgs.nginx"
+nix_install "OpenSSL" "nixpkgs.openssl"
