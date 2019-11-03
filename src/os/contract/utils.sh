@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "../utils.sh"
@@ -54,7 +54,7 @@ add_user() {
     else
         args="--user-group \
             --create-home \
-            --shell /bin/bash"
+            --shell /usr/bin/env bash"
     fi
 
     execute \
