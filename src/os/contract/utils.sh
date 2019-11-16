@@ -66,6 +66,13 @@ add_user() {
         "Create user: $USER" \
         "sudo"
 
+    # Sometimes SSH access is prohibited because user is locked
+    # Unlock the user by deleting its password
+    execute \
+        "passwd -d $USER" \
+        "Make user passwordless" \
+        "sudo"
+
 }
 
 add_user_to_group() {
