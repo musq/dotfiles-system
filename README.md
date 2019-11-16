@@ -26,6 +26,7 @@ Seriously, **DON'T**!
 
 - [Background](#background)
 - [Requirements](#requirements)
+- [Pre-Install](#pre-install)
 - [Install](#install)
   - [One-line installer](#one-line-installer)
   - [Manual](#manual)
@@ -53,6 +54,7 @@ It should also **follow these standards** —
 - Be idempotent
 - Be easy to audit
 
+
 ## Requirements
 
 This tool is only meant for Linux variants. It has been verified to
@@ -60,6 +62,59 @@ work on —
 
 - Debian 9
 - Ubuntu 16.04
+
+
+## Pre-Install
+
+If you do not have a user with `sudo` access, create it as follows:
+
+```bash
+# Login to root
+sudo -i
+
+# Update the default text editor, select your desire
+update-alternatives --config editor
+
+# Edit sudoers file and add the following line
+visudo
+# Allow members of group sudo-users to execute any command, passwordless
+%sudo-users ALL=(ALL) NOPASSWD: ALL
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Initialize USER variables
+USER="ashish"
+USERNAME="Ashish Ranjan"
+SSH_DIR="/home/$USER/.ssh"
+SSH_PUBLIC_KEY=""
+
+# Add user
+useradd \
+    --key UMASK=022 \
+    --user-group \
+    --create-home \
+    --shell /bin/bash \
+    --comment "$USER_NAME" \
+    "$USER"
+
+# Create sudo-users group
+groupadd --system sudo-users
+
+# Add your user to sudo-users
+usermod \
+    --append \
+    --groups sudo-users \
+    "$USER"
+
+# Setup SSH access
+mkdir -p "$SSH_DIR"
+echo "$SSH_PUBLIC_KEY" >> "$SSH_DIR/authorized_keys"
+chown -R "$USER":"$USER" "$SSH_DIR"
+
+# Sometimes SSH access is prohibited because user is locked
+# Unlock the user by deleting its password
+passwd -d "$USER"
+```
 
 ## Install
 
@@ -144,6 +199,7 @@ Feel free to dive in!
 or submit PRs.
 
 See [contributing guidelines](CONTRIBUTING.md).
+
 
 ## License
 
