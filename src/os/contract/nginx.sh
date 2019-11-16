@@ -6,8 +6,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   NGINX\n\n"
+print_in_purple "\n   Nginx\n\n"
 
-add_user "nginx" "NGINX" "system"
+add_user "nginx" "Nginx" "system"
 
 harden "/var/log/nginx" "nginx" "nginx" 640 750
