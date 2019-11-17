@@ -7,7 +7,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 init_backup() {
 
-    local -r BACKUP_HOME="$HOME/backups/dotfiles-system"
+    local -r BACKUP_HOME="$HOME/.backups/dotfiles-system"
 
     mkdir -p "$BACKUP_HOME"
 
