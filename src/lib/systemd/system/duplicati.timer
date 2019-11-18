@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer - Duplicati backup script
+
+[Timer]
+OnBootSec=5m
+OnCalendar=17:00:00 UTC
+Unit=duplicati.service
+
+[Install]
+WantedBy=multi-user.target

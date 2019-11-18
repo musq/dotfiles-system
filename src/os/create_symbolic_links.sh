@@ -21,6 +21,8 @@ create_full_path_symlinks() {
 
         "etc/skel"
 
+        "lib/systemd/system/duplicati.service"
+        "lib/systemd/system/duplicati.timer"
         "lib/systemd/system/nginx.service"
 
         "usr/local/bin/fzf-tmux"

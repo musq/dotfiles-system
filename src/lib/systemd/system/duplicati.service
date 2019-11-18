@@ -1,0 +1,5 @@
+[Unit]
+Description=Duplicati backup script
+
+[Service]
+ExecStart=/nix/var/nix/profiles/default/bin/bash /usr/local/sbin/duplicati-backup
