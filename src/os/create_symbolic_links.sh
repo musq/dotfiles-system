@@ -26,6 +26,8 @@ create_full_path_symlinks() {
         "usr/local/bin/fzf-tmux"
         "usr/local/bin/git-icdiff"
 
+        "usr/local/sbin/duplicati-backup"
+
     )
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

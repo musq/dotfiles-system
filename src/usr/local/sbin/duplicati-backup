@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+# Unofficial bash strict mode
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+DUPLICATI_CREDENTIAL="/root/.credentials/duplicati.secret"
+
+DUPLICATI_DIRECTORIES_LIST="/etc/duplicati/directories.txt"
+
+DUPLICATI_LOG="/var/log/duplicati.log"
+
+# DUPLICATI_REMOTE="file:///var/backups/duplicati/$(hostname)/$(whoami)"
+DUPLICATI_REMOTE="googledrive://backups/duplicati/$(hostname)/$(whoami)"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Set critical env variables
+
+source "$DUPLICATI_CREDENTIAL"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Repair local/remote database
+
+# duplicati-cli repair \
+#     "$DUPLICATI_REMOTE"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Start backup
+
+cat "$DUPLICATI_DIRECTORIES_LIST" \
+    | xargs /nix/var/nix/profiles/default/bin/duplicati-cli backup \
+    "$DUPLICATI_REMOTE" \
+    --authid="$GOOGLE_DRIVE_AUTHID" \
+    --auto-cleanup=true \
+    --auto-vacuum=true \
+    --backup-name="$(hostname)-$(whoami)" \
+    --block-hash-algorithm=SHA256 \
+    --blocksize=100kb \
+    --check-filetime-only=true \
+    --compression-module=zip \
+    --dblock-size=50mb \
+    --dont-compress-restore-paths=true \
+    --encryption-module=aes \
+    --file-hash-algorithm=SHA256 \
+    --ignore-filenames=".nobackup:pip-selfcheck.json" \
+    --keep-versions=-1 \
+    --log-file="$DUPLICATI_LOG" \
+    --log-file-log-level=Information \
+    --quota-size=20gb \
+    --restore-permissions=true \
+    --retention-policy=1M:0s,6M:1D,2Y:1M,100Y:3M \
+    --snapshot-policy=auto \
+    --symlink-policy=Store \
+    --send-mail-to="$EMAIL" \
+    --send-mail-from="No Reply - Duplicati <backup@tug.ro>" \
+    --send-mail-subject="Duplicati %OPERATIONNAME% report: %backup-name%" \
+    --send-mail-body="Remote URL: %REMOTEURL%
+
+Local path: %LOCALPATH%
+
+Status: %PARSEDRESULT%
+
+%RESULT%" \
+    --exclude="*/.venv/" \
+    --exclude="*/vendor/" \
+    --exclude="*/vim/plugged/" \
+    --exclude="*/.config/BraveSoftware/" \
+    --exclude="*/.config/brave/" \
+    --exclude="*/.config/google-chrome/" \
+    --exclude="*/.config/google-chrome-beta/" \
+    --exclude="*/.config/iridium/" \
+    --exclude="*/.config/libreoffice/" \
+    --exclude="*/.config/sublime-text-3/" \
+    --exclude="*/.local/share/virtualenvs/" \
+    || true # Since the exit code of the duplicati binary is non-zero
+            # even when successful, `true` is added to make the exit
+            # code 0
+            # http://redsymbol.net/articles/unofficial-bash-strict-mode/#expect-nonzero-exit-status
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Unset critical env variables
+
+unset EMAIL
+unset GOOGLE_DRIVE_AUTHID
+unset PASSPHRASE
