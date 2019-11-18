@@ -10,3 +10,4 @@ print_in_purple "\n ● Contracts - After\n"
 ./nginx.sh
 ./nix.sh
 ./openssl.sh
+./systemd.sh
