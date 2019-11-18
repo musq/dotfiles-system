@@ -6,6 +6,28 @@ answer_is_yes() {
         || return 1
 }
 
+append_lines_to_file() {
+
+    # First argument in file path
+    local -r file="$1"
+
+    # All other arguments are lines to be added
+    # https://stackoverflow.com/a/8906229
+    for line in "${@:2}"; do
+
+        if sudo egrep -q "^$line$" "$file"; then
+            print_success "Add line to $file → $line"
+        else
+            execute \
+                "echo -e $line >> $file" \
+                "Add line to $file → $line" \
+                "sudo"
+        fi
+
+    done
+
+}
+
 ask() {
     print_question "$1"
     read -r
