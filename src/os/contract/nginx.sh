@@ -11,3 +11,9 @@ print_in_purple "\n   Nginx\n\n"
 add_user "nginx" "Nginx" "system"
 
 harden "/var/log/nginx" "nginx" "nginx" 640 750
+
+partials="/etc/nginx/conf.d/partials"
+execute \
+    "mkdir -p $partials" \
+    "Create $partials" \
+    "sudo"
