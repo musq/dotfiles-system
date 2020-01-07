@@ -41,6 +41,7 @@ upgrade
 
 ./build-essentials.sh "$full"
 
+./database.sh "$full"
 ./downloaders.sh "$full"
 ./editors.sh "$full"
 ./git.sh "$full"

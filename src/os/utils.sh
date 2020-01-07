@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2034
+NIX_DEFAULT_BIN="/nix/var/nix/profiles/default/bin"
+
 answer_is_yes() {
     [[ "$REPLY" =~ ^[Yy]$ ]] \
         && return 0 \
@@ -146,10 +149,17 @@ execute() {
     local CMDS="$1"
     local -r MSG="${2:-$1}"
     local -r TMP_FILE="$(mktemp /tmp/XXXXX)"
+    local -r SUDO="$3"
+    local -r USER="$4"
 
-    if [ "$3" == "sudo" ]; then
+    if [ "$SUDO" == "sudo" ]; then
         # https://stackoverflow.com/questions/5560442/how-to-run-two-commands-in-sudo
-        CMDS="sudo -i -- bash -c \"$CMDS\""
+        if [ "$USER" == "" ]; then
+            PRE_CMD="sudo -i"
+        else
+            PRE_CMD="sudo -u $USER"
+        fi
+        CMDS="$PRE_CMD -- bash -c \"$CMDS\""
     fi
 
     local exitCode=0

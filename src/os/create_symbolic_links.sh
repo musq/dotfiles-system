@@ -27,6 +27,7 @@ create_full_path_symlinks() {
         "usr/local/lib/systemd/system/duplicati.service"
         "usr/local/lib/systemd/system/duplicati.timer"
         "usr/local/lib/systemd/system/nginx.service"
+        "usr/local/lib/systemd/system/postgresql.service"
 
         "usr/local/sbin/duplicati-backup"
 
