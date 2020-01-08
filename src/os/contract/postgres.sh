@@ -16,6 +16,11 @@ PG_DATA="$PG_HOME/data"
 harden "$PG_HOME" "postgres" "postgres" 640 750
 harden "/run/postgresql" "postgres" "postgres" 640 750
 
+# Schedule duplicati backup
+append_lines_to_file \
+    "/etc/duplicati/directories.txt" \
+    "/var/lib/pgsql/"
+
 # shellcheck disable=SC2086
 if sudo bash -c '[[ -e "'$PG_DATA'" ]]'; then
     print_success "Cluster already initialized"
