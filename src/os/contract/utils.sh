@@ -54,7 +54,7 @@ add_user() {
     else
         args="--user-group \
             --create-home \
-            --shell /usr/bin/env bash"
+            --shell /bin/bash"
     fi
 
     execute \
