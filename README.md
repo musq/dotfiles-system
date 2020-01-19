@@ -79,14 +79,21 @@ update-alternatives --config editor
 visudo
 # Allow members of group sudo-users to execute any command, passwordless
 %sudo-users ALL=(ALL) NOPASSWD: ALL
+```
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Run the following commands to:
 
+- Create a new user `boss`
+- Add **your SSH public key** to `boss` — **must replace** my SSH public key below
+- Add `boss` to `sudo-users` for passwordless sudo
+- Unlock this user by deleting its password
+
+```bash
 # Initialize USER variables
-USER="ashish"
-USERNAME="Ashish Ranjan"
+USER="boss"
+USERNAME="Boss"
 SSH_DIR="/home/$USER/.ssh"
-SSH_PUBLIC_KEY=""
+SSH_PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJK827/gzPAZQaNsLdtBz/WK6HHJaFL85pF+gsP41SDl ashish"
 
 # Add user
 useradd \
