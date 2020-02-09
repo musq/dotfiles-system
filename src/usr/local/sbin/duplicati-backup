@@ -7,6 +7,8 @@ IFS=$'\n\t'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+DUPLICATI_CLI="/nix/var/nix/profiles/default/bin/duplicati-cli"
+
 DUPLICATI_CREDENTIAL="/root/.credentials/duplicati.secret"
 
 DUPLICATI_DIRECTORIES_LIST="/etc/duplicati/directories.txt"
@@ -24,17 +26,25 @@ source "$DUPLICATI_CREDENTIAL"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Repair local/remote database
+# Repair/Restore local/remote database
 
-# duplicati-cli repair \
-#     "$DUPLICATI_REMOTE"
+# "$DUPLICATI_CLI" repair \
+#     "$DUPLICATI_REMOTE" \
+#     --authid="$GOOGLE_DRIVE_AUTHID"
+
+# "$DUPLICATI_CLI" restore \
+#     "$DUPLICATI_REMOTE" \
+#     --authid="$GOOGLE_DRIVE_AUTHID" \
+#     --overwrite=1
+
+# exit
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Start backup
 
 cat "$DUPLICATI_DIRECTORIES_LIST" \
-    | xargs /nix/var/nix/profiles/default/bin/duplicati-cli backup \
+    | xargs "$DUPLICATI_CLI" backup \
     "$DUPLICATI_REMOTE" \
     --authid="$GOOGLE_DRIVE_AUTHID" \
     --auto-cleanup=true \
