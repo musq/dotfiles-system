@@ -13,6 +13,7 @@ DUPLICATI_CREDENTIAL="/root/.credentials/duplicati.secret"
 
 DUPLICATI_DIRECTORIES_LIST="/etc/duplicati/directories.txt"
 
+DUPLICATI_CACHE="/var/cache/duplicati/cache.sqlite"
 DUPLICATI_LOG="/var/log/duplicati.log"
 
 # DUPLICATI_REMOTE="file:///var/backups/duplicati/$(hostname)/$(whoami)"
@@ -30,11 +31,13 @@ source "$DUPLICATI_CREDENTIAL"
 
 # "$DUPLICATI_CLI" repair \
 #     "$DUPLICATI_REMOTE" \
-#     --authid="$GOOGLE_DRIVE_AUTHID"
+#     --authid="$GOOGLE_DRIVE_AUTHID" \
+#     --dbpath="$DUPLICATI_CACHE"
 
 # "$DUPLICATI_CLI" restore \
 #     "$DUPLICATI_REMOTE" \
 #     --authid="$GOOGLE_DRIVE_AUTHID" \
+#     --dbpath="$DUPLICATI_CACHE" \
 #     --overwrite=1
 
 # exit
@@ -56,6 +59,7 @@ cat "$DUPLICATI_DIRECTORIES_LIST" \
     --compression-module=zip \
     --dblock-size=50mb \
     --dont-compress-restore-paths=true \
+    --dbpath="$DUPLICATI_CACHE" \
     --encryption-module=aes \
     --file-hash-algorithm=SHA256 \
     --ignore-filenames=".nobackup:pip-selfcheck.json" \
